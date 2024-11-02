@@ -11,7 +11,7 @@ import { LLMNode } from './nodes/llmNode'
 import { OutputNode } from './nodes/outputNode'
 import { TextNode } from './nodes/textNode'
 import { DropdownSelectorNode } from './nodes/dropdownSelectorNode'
-
+import { CheckboxNode } from './nodes/checkboxNode'
 import 'reactflow/dist/style.css'
 
 const gridSize = 20
@@ -21,7 +21,8 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
-  dropdown: DropdownSelectorNode
+  dropdown: DropdownSelectorNode,
+  checkbox: CheckboxNode,
 }
 
 const selector = state => ({

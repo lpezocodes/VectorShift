@@ -1,33 +1,39 @@
 // baseNode.js
 
-// #region  Documentation
+import { useState, useEffect } from 'react'
+import { Handle } from 'reactflow'
+import {
+  renderSelectField,
+  renderCheckboxField,
+  renderTextField,
+} from '../utils/fieldUtils'
+
+// #region Documentation
 /**
  * BaseNode Component
  *
- * A reusable node template for various node types in React Flow diagrams.
+ * A reusable, abstract node component for React Flow diagrams.
  *
  * Props:
  * @param {string} id - Unique identifier for the node.
  * @param {object} data - Initial data for the node's state.
- * @param {string} title - Title for the node (e.g., "Input", "Output").
+ * @param {string} title - Node title (e.g., "Input", "Output").
  * @param {Array} fields - Configurations for node input fields.
- *    - Each field has:
- *      - label: Field label.
- *      - type: Field input type ("text" or "select").
+ *    Each field object contains:
+ *      - label: Display label for the field.
+ *      - type: Input type ("text", "select", "checkbox").
  *      - key: Unique key for state storage.
- *      - options: (Optional) Array of options for select fields.
- * @param {Array} handleConfigs - Configurations for node connection points (handles).
- *    - Each handle config has:
+ *      - options: Optional array of options for select fields.
+ * @param {Array} handleConfigs - Node connection points (handles) configuration.
+ *    Each handle object contains:
  *      - type: Handle type ("source" or "target").
- *      - position: Handle position on the node.
+ *      - position: Position on the node (e.g., Position.Right).
  *      - id: Unique handle ID.
- *      - style: (Optional) Custom styling for the handle.
- * @param {JSX.Element} extraContent - Optional custom content.
+ *      - style: Optional custom styling for the handle.
+ * @param {JSX.Element} extraContent - Optional additional content rendered below fields.
+ * @param {boolean} clearTrigger - Triggers a reset of node field values when toggled.
  */
 // #endregion
-
-import { useState } from 'react'
-import { Handle } from 'reactflow'
 
 export const BaseNode = ({
   id,
@@ -36,11 +42,45 @@ export const BaseNode = ({
   fields = [],
   handleConfigs = [],
   extraContent,
+  clearTrigger,
 }) => {
   const [localData, setLocalData] = useState(data)
 
   const handleFieldChange = (fieldKey, value) => {
     setLocalData(prevData => ({ ...prevData, [fieldKey]: value }))
+  }
+
+  useEffect(() => {
+    if (clearTrigger) {
+      const resetData = fields.reduce((acc, field) => {
+        acc[field.key] = field.type === 'checkbox' ? false : ''
+        return acc
+      }, {})
+      setLocalData(resetData)
+    }
+  }, [clearTrigger, fields])
+
+  const renderField = field => {
+    const commonProps = {
+      value: localData[field.key] || '',
+      onChange: e =>
+        handleFieldChange(
+          field.key,
+          field.type === 'checkbox' ? e.target.checked : e.target.value
+        ),
+    }
+
+    switch (field.type) {
+      case 'select':
+        return renderSelectField({ ...commonProps, options: field.options })
+      case 'checkbox':
+        return renderCheckboxField({
+          checked: localData[field.key] || false,
+          onChange: commonProps.onChange,
+        })
+      default:
+        return renderTextField(commonProps)
+    }
   }
 
   return (
@@ -50,29 +90,9 @@ export const BaseNode = ({
       </div>
       {fields.length > 0 && (
         <div>
-          {fields.map(({ label, type, key, options = [] }) => (
-            <label key={key}>
-              {label}:
-              {type === 'select' ? (
-                <select
-                  value={localData[key]}
-                  onChange={e => handleFieldChange(key, e.target.value)}
-                >
-                  {(options.length > 0 ? options : ['Text', 'File']).map(
-                    option => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    )
-                  )}
-                </select>
-              ) : (
-                <input
-                  type="text"
-                  value={localData[key]}
-                  onChange={e => handleFieldChange(key, e.target.value)}
-                />
-              )}
+          {fields.map(field => (
+            <label key={field.key}>
+              {field.label}:{renderField(field)}
             </label>
           ))}
         </div>
