@@ -1,41 +1,105 @@
-import { useRef, useEffect } from 'react'
+// textNode.js
+import { useRef, useEffect, useState, useCallback } from 'react'
+import {
+  useReactFlow,
+  Position,
+  Handle,
+  useUpdateNodeInternals,
+} from 'reactflow'
 import { BaseNode } from './baseNode'
-import { Position } from 'reactflow'
+
+const adjustTextAreaSize = textAreaRef => {
+  if (textAreaRef.current) {
+    textAreaRef.current.style.height = 'auto'
+    textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`
+  }
+}
+
+const extractVariables = text =>
+  [...text.matchAll(/{{\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\s*}}/g)].map(
+    match => match[1]
+  )
 
 export const TextNode = ({ id, data }) => {
   const textAreaRef = useRef(null)
+  const { getEdges, setEdges } = useReactFlow()
+  const updateNodeInternals = useUpdateNodeInternals()
+  const [variableHandles, setVariableHandles] = useState(['input'])
 
-  const adjustTextAreaSize = () => {
-    if (textAreaRef.current) {
-      const textArea = textAreaRef.current
-      textArea.style.height = 'auto'
-      textArea.style.height = `${textArea.scrollHeight}px`
-    }
-  }
+  const updateHandlesAndEdges = useCallback(
+    text => {
+      const validHandles = extractVariables(text)
+      const currentEdges = getEdges()
+
+      setEdges(
+        currentEdges.filter(
+          edge =>
+            !(
+              edge.target === id &&
+              !validHandles.includes(edge.targetHandle.replace(`${id}-`, ''))
+            )
+        )
+      )
+
+      setVariableHandles(validHandles)
+      updateNodeInternals(id)
+    },
+    [getEdges, setEdges, id, updateNodeInternals]
+  )
 
   useEffect(() => {
-    adjustTextAreaSize()
-  }, [])
+    adjustTextAreaSize(textAreaRef)
+    updateHandlesAndEdges(data?.text || '{{input}}')
+  }, [data?.text, updateHandlesAndEdges])
 
   return (
     <BaseNode
       id={id}
-      data={{
-        ...data,
-        text: data?.text || '{{input}}',
-      }}
+      data={{ ...data, text: data?.text || '{{input}}' }}
       title="Text"
       handleConfigs={[
         { type: 'source', position: Position.Right, id: `${id}-output` },
       ]}
       customRender={(data, handleFieldChange) => (
         <div style={{ position: 'relative', marginBottom: '10px' }}>
+          {/* Dynamic Handles */}
+          {variableHandles.map((variable, index) => (
+            <div
+              key={variable}
+              style={{
+                position: 'absolute',
+                left: '-60px',
+                top: `${index * 20 + 10}px`,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Handle
+                type="target"
+                position={Position.Left}
+                id={`${id}-${variable}`}
+                isConnectable
+              />
+              <span
+                style={{
+                  marginLeft: '5px',
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {variable}
+              </span>
+            </div>
+          ))}
+          {/* Text area */}
           <textarea
             ref={textAreaRef}
             value={data.text || ''}
             onChange={e => {
-              handleFieldChange('text', e.target.value)
-              adjustTextAreaSize()
+              const newText = e.target.value
+              handleFieldChange('text', newText)
+              adjustTextAreaSize(textAreaRef)
+              updateHandlesAndEdges(newText)
             }}
             maxLength={500}
             style={{
@@ -44,10 +108,11 @@ export const TextNode = ({ id, data }) => {
               width: '100%',
               height: 'auto',
               minHeight: '40px',
-              padding: '5px',
               borderRadius: '5px',
+              boxSizing: 'border-box',
             }}
           />
+          {/* Character count */}
           <small
             style={{ marginTop: '5px', fontSize: '12px', display: 'block' }}
           >

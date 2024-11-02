@@ -1,6 +1,6 @@
 // dropdownSelectorNode.js
-import { BaseNode } from './baseNode';
-import { Position } from 'reactflow';
+import { BaseNode } from './baseNode'
+import { Position } from 'reactflow'
 
 export const DropdownSelectorNode = ({ id, data }) => (
   <BaseNode
@@ -12,11 +12,11 @@ export const DropdownSelectorNode = ({ id, data }) => (
         label: 'Option',
         type: 'select',
         key: 'dropdownOption',
-        options: ['File', 'Text', 'Number', 'Boolean', 'Vector']
-      }
+        options: ['File', 'Text', 'Number', 'Boolean', 'Vector'],
+      },
     ]}
     handleConfigs={[
-      { type: 'source', position: Position.Right, id: `${id}-output` }
+      { type: 'source', position: Position.Right, id: `${id}-output` },
     ]}
   />
-);
+)
