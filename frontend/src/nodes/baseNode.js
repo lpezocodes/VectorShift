@@ -3,9 +3,9 @@
 // #region  Documentation
 /**
  * BaseNode Component
- * 
+ *
  * A reusable node template for various node types in React Flow diagrams.
- * 
+ *
  * Props:
  * @param {string} id - Unique identifier for the node.
  * @param {object} data - Initial data for the node's state.
@@ -25,15 +25,22 @@
  */
 // #endregion
 
-import { useState } from 'react';
-import { Handle } from 'reactflow';
+import { useState } from 'react'
+import { Handle } from 'reactflow'
 
-export const BaseNode = ({ id, data, title, fields = [], handleConfigs = [], extraContent }) => {
-  const [localData, setLocalData] = useState(data);
+export const BaseNode = ({
+  id,
+  data,
+  title,
+  fields = [],
+  handleConfigs = [],
+  extraContent,
+}) => {
+  const [localData, setLocalData] = useState(data)
 
   const handleFieldChange = (fieldKey, value) => {
-    setLocalData((prevData) => ({ ...prevData, [fieldKey]: value }));
-  };
+    setLocalData(prevData => ({ ...prevData, [fieldKey]: value }))
+  }
 
   return (
     <div style={{ width: 200, height: 80, border: '1px solid black' }}>
@@ -48,7 +55,7 @@ export const BaseNode = ({ id, data, title, fields = [], handleConfigs = [], ext
               {type === 'select' ? (
                 <select
                   value={localData[key]}
-                  onChange={(e) => handleFieldChange(key, e.target.value)}
+                  onChange={e => handleFieldChange(key, e.target.value)}
                 >
                   <option value="Text">Text</option>
                   <option value="File">File</option>
@@ -57,7 +64,7 @@ export const BaseNode = ({ id, data, title, fields = [], handleConfigs = [], ext
                 <input
                   type="text"
                   value={localData[key]}
-                  onChange={(e) => handleFieldChange(key, e.target.value)}
+                  onChange={e => handleFieldChange(key, e.target.value)}
                 />
               )}
             </label>
@@ -66,8 +73,14 @@ export const BaseNode = ({ id, data, title, fields = [], handleConfigs = [], ext
       )}
       {extraContent && <div>{extraContent}</div>}
       {handleConfigs.map(({ type, position, id, style }) => (
-        <Handle key={id} type={type} position={position} id={id} style={style} />
+        <Handle
+          key={id}
+          type={type}
+          position={position}
+          id={id}
+          style={style}
+        />
       ))}
     </div>
-  );
-};
+  )
+}

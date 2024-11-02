@@ -1,6 +1,6 @@
 // inputNode.js
-import { BaseNode } from './baseNode';
-import { Position } from 'reactflow';
+import { BaseNode } from './baseNode'
+import { Position } from 'reactflow'
 
 export const InputNode = ({ id, data }) => (
   <BaseNode
@@ -8,15 +8,15 @@ export const InputNode = ({ id, data }) => (
     data={{
       ...data,
       inputName: data?.inputName || id.replace('customInput-', 'input_'),
-      inputType: data?.inputType || 'Text'
+      inputType: data?.inputType || 'Text',
     }}
     title="Input"
     fields={[
       { label: 'Name', type: 'text', key: 'inputName' },
-      { label: 'Type', type: 'select', key: 'inputType' }
+      { label: 'Type', type: 'select', key: 'inputType' },
     ]}
     handleConfigs={[
-      { type: 'source', position: Position.Right, id: `${id}-value` }
+      { type: 'source', position: Position.Right, id: `${id}-value` },
     ]}
   />
-);
+)
