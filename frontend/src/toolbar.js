@@ -19,6 +19,7 @@ export const PipelineToolbar = () => {
         <DraggableNode type="text" label="Text" />
         <DraggableNode type="dropdown" label="Dropdown Selector" />
         <DraggableNode type="checkbox" label="Checkbox Selector" />
+        <DraggableNode type="slider" label="Slider" />
       </div>
     </div>
   )

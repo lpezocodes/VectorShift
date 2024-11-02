@@ -1,6 +1,7 @@
 // fieldUtils.js
 
 import React from 'react'
+import 'reactflow/dist/style.css'
 
 export const renderSelectField = ({
   value,
@@ -22,4 +23,25 @@ export const renderCheckboxField = ({ checked, onChange }) => (
 
 export const renderTextField = ({ value, onChange }) => (
   <input type="text" value={value} onChange={onChange} />
+)
+export const renderSliderField = ({
+  value,
+  onChange,
+  min = 0,
+  max = 100,
+  step = 1,
+}) => (
+  <input
+    type="range"
+    value={value}
+    onChange={e => {
+      e.stopPropagation()
+      onChange(e)
+    }}
+    onMouseDown={e => e.stopPropagation()}
+    min={min}
+    max={max}
+    step={step}
+    className="nodrag"
+  />
 )

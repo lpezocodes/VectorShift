@@ -6,6 +6,7 @@ import {
   renderSelectField,
   renderCheckboxField,
   renderTextField,
+  renderSliderField,
 } from '../utils/fieldUtils'
 
 // #region Documentation
@@ -78,6 +79,17 @@ export const BaseNode = ({
           checked: localData[field.key] || false,
           onChange: commonProps.onChange,
         })
+      case 'slider':
+        return renderSliderField({
+          value: localData[field.key] || 0,
+          onChange: e => {
+            handleFieldChange(field.key, e.target.value)
+            field.onChange?.(e.target.value)
+          },
+          min: field.min,
+          max: field.max,
+          step: field.step,
+        })
       default:
         return renderTextField(commonProps)
     }
@@ -92,7 +104,7 @@ export const BaseNode = ({
         <div>
           {fields.map(field => (
             <label key={field.key}>
-              {field.label}:{renderField(field)}
+              {field.label}: {renderField(field)}
             </label>
           ))}
         </div>

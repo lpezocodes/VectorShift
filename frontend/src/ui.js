@@ -2,6 +2,7 @@
 // Displays the drag-and-drop UI
 // --------------------------------------------------
 
+import 'reactflow/dist/style.css'
 import { useState, useRef, useCallback } from 'react'
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow'
 import { useStore } from './store'
@@ -12,7 +13,7 @@ import { OutputNode } from './nodes/outputNode'
 import { TextNode } from './nodes/textNode'
 import { DropdownSelectorNode } from './nodes/dropdownSelectorNode'
 import { CheckboxNode } from './nodes/checkboxNode'
-import 'reactflow/dist/style.css'
+import { SliderNode } from './nodes/sliderNode'
 
 const gridSize = 20
 const proOptions = { hideAttribution: true }
@@ -23,6 +24,7 @@ const nodeTypes = {
   text: TextNode,
   dropdown: DropdownSelectorNode,
   checkbox: CheckboxNode,
+  slider: SliderNode,
 }
 
 const selector = state => ({
