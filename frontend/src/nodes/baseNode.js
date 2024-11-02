@@ -46,6 +46,7 @@ export const BaseNode = ({
   handleConfigs = [],
   extraContent,
   clearTrigger,
+  customRender,
 }) => {
   const [localData, setLocalData] = useState(data)
 
@@ -111,7 +112,7 @@ export const BaseNode = ({
   }
 
   return (
-    <div style={{ width: 200, height: 80, border: '1px solid black' }}>
+    <div style={{ width: 200, border: '1px solid black', padding: '10px' }}>
       <div>
         <span>{title}</span>
       </div>
@@ -124,6 +125,7 @@ export const BaseNode = ({
           ))}
         </div>
       )}
+      {customRender && <div>{customRender(localData, handleFieldChange)}</div>}
       {extraContent && <div>{extraContent}</div>}
       {handleConfigs.map(({ type, position, id, style }) => (
         <Handle
