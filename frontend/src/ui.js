@@ -14,6 +14,7 @@ import { TextNode } from './nodes/textNode'
 import { DropdownSelectorNode } from './nodes/dropdownSelectorNode'
 import { CheckboxNode } from './nodes/checkboxNode'
 import { SliderNode } from './nodes/sliderNode'
+import { NumberInputNode } from './nodes/numberInputNode'
 
 const gridSize = 20
 const proOptions = { hideAttribution: true }
@@ -25,6 +26,7 @@ const nodeTypes = {
   dropdown: DropdownSelectorNode,
   checkbox: CheckboxNode,
   slider: SliderNode,
+  numberInput: NumberInputNode,
 }
 
 const selector = state => ({

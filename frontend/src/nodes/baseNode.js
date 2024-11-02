@@ -7,6 +7,7 @@ import {
   renderCheckboxField,
   renderTextField,
   renderSliderField,
+  renderNumberInputField,
 } from '../utils/fieldUtils'
 
 // #region Documentation
@@ -22,7 +23,7 @@ import {
  * @param {Array} fields - Configurations for node input fields.
  *    Each field object contains:
  *      - label: Display label for the field.
- *      - type: Input type ("text", "select", "checkbox").
+ *      - type: Input type ("text", "select", "checkbox", "slider", "numberInput").
  *      - key: Unique key for state storage.
  *      - options: Optional array of options for select fields.
  * @param {Array} handleConfigs - Node connection points (handles) configuration.
@@ -86,6 +87,14 @@ export const BaseNode = ({
             handleFieldChange(field.key, e.target.value)
             field.onChange?.(e.target.value)
           },
+          min: field.min,
+          max: field.max,
+          step: field.step,
+        })
+      case 'numberInput':
+        return renderNumberInputField({
+          value: localData[field.key] || 0,
+          onChange: commonProps.onChange,
           min: field.min,
           max: field.max,
           step: field.step,

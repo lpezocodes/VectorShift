@@ -45,3 +45,23 @@ export const renderSliderField = ({
     className="nodrag"
   />
 )
+
+export const renderNumberInputField = ({
+  value,
+  onChange,
+  min = 0,
+  max = 100,
+  step = 1,
+}) => (
+  <input
+    type="number"
+    value={value}
+    onChange={e => {
+      onChange(e)
+    }}
+    min={min}
+    max={max}
+    step={step}
+    className="nodrag"
+  />
+)
