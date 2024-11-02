@@ -65,3 +65,7 @@ export const renderNumberInputField = ({
     className="nodrag"
   />
 )
+
+export const renderDateField = ({ value, onChange }) => (
+  <input type="date" value={value} onChange={onChange} className="nodrag" />
+)

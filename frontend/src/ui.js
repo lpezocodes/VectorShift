@@ -15,6 +15,7 @@ import { DropdownSelectorNode } from './nodes/dropdownSelectorNode'
 import { CheckboxNode } from './nodes/checkboxNode'
 import { SliderNode } from './nodes/sliderNode'
 import { NumberInputNode } from './nodes/numberInputNode'
+import { DateNode } from './nodes/dateNode'
 
 const gridSize = 20
 const proOptions = { hideAttribution: true }
@@ -27,6 +28,7 @@ const nodeTypes = {
   checkbox: CheckboxNode,
   slider: SliderNode,
   numberInput: NumberInputNode,
+  date: DateNode,
 }
 
 const selector = state => ({

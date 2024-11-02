@@ -21,6 +21,7 @@ export const PipelineToolbar = () => {
         <DraggableNode type="checkbox" label="Checkbox Selector" />
         <DraggableNode type="slider" label="Slider" />
         <DraggableNode type="numberInput" label="Number Input" />
+        <DraggableNode type="date" label="Date" />
       </div>
     </div>
   )
