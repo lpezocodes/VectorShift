@@ -8,7 +8,6 @@ export const OutputNode = ({ id, data }) => (
     data={{
       ...data,
       outputName: data?.outputName || id.replace('customOutput-', 'output_'),
-      outputType: data?.outputType || 'Text',
     }}
     title="Output"
     fields={[

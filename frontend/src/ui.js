@@ -10,6 +10,7 @@ import { InputNode } from './nodes/inputNode'
 import { LLMNode } from './nodes/llmNode'
 import { OutputNode } from './nodes/outputNode'
 import { TextNode } from './nodes/textNode'
+import { DropdownSelectorNode } from './nodes/dropdownSelectorNode'
 
 import 'reactflow/dist/style.css'
 
@@ -20,6 +21,7 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  dropdown: DropdownSelectorNode
 }
 
 const selector = state => ({

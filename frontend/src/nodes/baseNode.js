@@ -15,6 +15,7 @@
  *      - label: Field label.
  *      - type: Field input type ("text" or "select").
  *      - key: Unique key for state storage.
+ *      - options: (Optional) Array of options for select fields.
  * @param {Array} handleConfigs - Configurations for node connection points (handles).
  *    - Each handle config has:
  *      - type: Handle type ("source" or "target").
@@ -49,7 +50,7 @@ export const BaseNode = ({
       </div>
       {fields.length > 0 && (
         <div>
-          {fields.map(({ label, type, key }) => (
+          {fields.map(({ label, type, key, options = [] }) => (
             <label key={key}>
               {label}:
               {type === 'select' ? (
@@ -57,8 +58,13 @@ export const BaseNode = ({
                   value={localData[key]}
                   onChange={e => handleFieldChange(key, e.target.value)}
                 >
-                  <option value="Text">Text</option>
-                  <option value="File">File</option>
+                  {(options.length > 0 ? options : ['Text', 'File']).map(
+                    option => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    )
+                  )}
                 </select>
               ) : (
                 <input

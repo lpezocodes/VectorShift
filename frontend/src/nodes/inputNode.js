@@ -8,7 +8,6 @@ export const InputNode = ({ id, data }) => (
     data={{
       ...data,
       inputName: data?.inputName || id.replace('customInput-', 'input_'),
-      inputType: data?.inputType || 'Text',
     }}
     title="Input"
     fields={[
