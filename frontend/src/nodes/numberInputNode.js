@@ -9,7 +9,7 @@ export const NumberInputNode = ({ id, data }) => (
       ...data,
       numberValue: data?.numberValue || 0,
     }}
-    title="Number Input"
+    title="Numeric Input"
     fields={[
       {
         label: 'Enter Number',

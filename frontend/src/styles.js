@@ -72,4 +72,52 @@ export const toolbarStyles = theme => ({
     backgroundColor: theme.palette.secondary.main,
     pointerEvents: 'none',
   },
+  nodeContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    color: '#333',
+    padding: '15px',
+    borderRadius: '12px',
+    width: '220px',
+    border: '1px solid #E0E0E0',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+  },
+
+  topbarStyles: {
+    backgroundColor: theme.palette.secondary.main,
+    padding: '10px',
+    borderRadius: '12px 12px 0 0',
+    color: '#FFF',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
+  fieldContainer: {
+    padding: '12px 0',
+    color: 'black',
+  },
+
+  fieldWrapper: {
+    marginBottom: '10px',
+    borderRadius: '8px',
+  },
+
+  fieldLabel: {
+    display: 'block',
+    marginBottom: '6px',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    color: '#5f6368',
+  },
+
+  inputField: {
+    padding: '10px',
+    fontSize: '14px',
+    borderRadius: '6px',
+    border: '1px solid #D1D1D1',
+    width: '100%',
+    boxSizing: 'border-box',
+    backgroundColor: '#F7F7F7',
+  },
 })

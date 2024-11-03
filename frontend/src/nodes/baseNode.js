@@ -10,6 +10,8 @@ import {
   renderNumberInputField,
   renderDateField,
 } from '../utils/fieldUtils'
+import { toolbarStyles } from '../styles'
+import { useTheme } from '@mui/material/styles'
 
 // #region Documentation
 /**
@@ -47,7 +49,11 @@ export const BaseNode = ({
   extraContent,
   clearTrigger,
   customRender,
+  customStyles = {},
 }) => {
+  const theme = useTheme()
+  const styles = toolbarStyles(theme)
+
   const [localData, setLocalData] = useState(data)
 
   const handleFieldChange = (fieldKey, value) => {
@@ -72,6 +78,7 @@ export const BaseNode = ({
           field.key,
           field.type === 'checkbox' ? e.target.checked : e.target.value
         ),
+      style: styles.inputField,
     }
 
     switch (field.type) {
@@ -81,6 +88,7 @@ export const BaseNode = ({
         return renderCheckboxField({
           checked: localData[field.key] || false,
           onChange: commonProps.onChange,
+          style: { ...styles.inputField, width: 'auto' },
         })
       case 'slider':
         return renderSliderField({
@@ -92,6 +100,7 @@ export const BaseNode = ({
           min: field.min,
           max: field.max,
           step: field.step,
+          style: { ...styles.inputField },
         })
       case 'numberInput':
         return renderNumberInputField({
@@ -100,28 +109,46 @@ export const BaseNode = ({
           min: field.min,
           max: field.max,
           step: field.step,
+          style: { ...styles.inputField },
         })
       case 'date':
         return renderDateField({
           value: localData[field.key] || '',
           onChange: commonProps.onChange,
+          style: { ...styles.inputField },
         })
       default:
-        return renderTextField(commonProps)
+        return renderTextField({
+          ...commonProps,
+          style: { ...styles.inputField },
+        })
     }
   }
 
   return (
-    <div style={{ width: 200, border: '1px solid black', padding: '10px' }}>
-      <div>
+    <div style={{ ...styles.nodeContainer, ...customStyles.nodeContainer }}>
+      {/* Topbar */}
+      <div style={{ ...styles.topbarStyles, ...customStyles.topbarStyles }}>
         <span>{title}</span>
       </div>
+
+      {/* Fields */}
       {fields.length > 0 && (
-        <div>
+        <div
+          style={{ ...styles.fieldContainer, ...customStyles.fieldContainer }}
+        >
           {fields.map(field => (
-            <label key={field.key}>
-              {field.label}: {renderField(field)}
-            </label>
+            <div
+              key={field.key}
+              style={{ ...styles.fieldWrapper, ...customStyles.fieldWrapper }}
+            >
+              <label
+                style={{ ...styles.fieldLabel, ...customStyles.fieldLabel }}
+              >
+                {field.label}:
+              </label>
+              <div>{renderField(field)}</div>
+            </div>
           ))}
         </div>
       )}
