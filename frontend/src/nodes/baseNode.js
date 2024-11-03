@@ -158,6 +158,7 @@ export const BaseNode = ({
           position={position}
           id={id}
           style={{
+            ...style,
             width: '10px',
             height: '10px',
           }}
