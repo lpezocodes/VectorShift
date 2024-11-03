@@ -173,4 +173,51 @@ export const toolbarStyles = theme => ({
     fontSize: '14px',
     color: theme.palette.text.secondary,
   },
+
+  formattedMessageContainer: {
+    textAlign: 'left',
+    padding: '0',
+    margin: '0',
+  },
+  successMessageTitle: {
+    fontSize: '18px',
+    display: 'block',
+    marginBottom: '10px',
+    color: '#4CAF50',
+    textAlign: 'left',
+  },
+  pipelineAnalysisLabel: {
+    position: 'relative',
+    fontSize: '16px',
+    display: 'block',
+    fontWeight: 'bold',
+    textAlign: 'left',
+  },
+  pipelineAnalysisList: {
+    paddingLeft: '20px',
+    marginBottom: '0px',
+    fontSize: '14px',
+    textAlign: 'left',
+  },
+  pipelineAnalysisListItem: {
+    marginBottom: '5px',
+    textAlign: 'left',
+  },
+  snackbarPosition: {
+    top: '80px !important',
+    right: '15px !important',
+  },
+  submitButton: {
+    backgroundColor: '#4CAF50',
+    color: '#fff',
+    padding: '10px 20px',
+    borderRadius: '25px',
+    fontSize: '14px',
+    textTransform: 'none',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#388E3C',
+    },
+  },
 })
