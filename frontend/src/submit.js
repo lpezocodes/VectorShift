@@ -83,23 +83,27 @@ export const SubmitButton = () => {
     setOpen(false)
   }
 
+  const isConnected = nodes.length >= 2 && edges.length >= 1
+
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          sx={styles.submitButton}
+      {isConnected && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          Shift it!
-        </Button>
-      </div>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={styles.submitButton}
+          >
+            Shift it!
+          </Button>
+        </div>
+      )}
 
       {/* Snackbar Notification */}
       <Snackbar
