@@ -157,7 +157,10 @@ export const BaseNode = ({
           type={type}
           position={position}
           id={id}
-          style={style}
+          style={{
+            width: '10px',
+            height: '10px',
+          }}
         />
       ))}
     </div>

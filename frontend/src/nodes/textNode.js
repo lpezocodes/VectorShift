@@ -23,7 +23,7 @@ const extractVariables = text =>
   )
 
 export const TextNode = ({ id, data }) => {
-  const theme = useTheme() 
+  const theme = useTheme()
   const styles = toolbarStyles(theme)
   const textAreaRef = useRef(null)
   const { getEdges, setEdges } = useReactFlow()
@@ -83,11 +83,12 @@ export const TextNode = ({ id, data }) => {
                 position={Position.Left}
                 id={`${id}-${variable}`}
                 isConnectable
+                style={{ width: '8px', height: '8px' }}
               />
               <span
                 style={{
                   marginLeft: '5px',
-                  fontSize: '12px',
+                  fontSize: '13px',
                   whiteSpace: 'nowrap',
                 }}
               >
