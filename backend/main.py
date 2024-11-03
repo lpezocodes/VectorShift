@@ -41,11 +41,15 @@ def parse_pipeline(pipeline: Pipeline):
     num_edges = len(pipeline.edges)
     is_dag = check_if_dag(pipeline.nodes, pipeline.edges)
 
+    if not is_dag:
+        return {"error": "The pipeline contains cycles and is not a DAG."}
+
     return {
         "num_nodes": num_nodes,
         "num_edges": num_edges,
         "is_dag": is_dag
     }
+
 
 def check_if_dag(nodes: List[str], edges: List[Edge]) -> bool:
     graph = {node: [] for node in nodes}

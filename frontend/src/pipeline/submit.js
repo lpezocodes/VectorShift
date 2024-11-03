@@ -32,41 +32,46 @@ export const SubmitButton = () => {
         `${process.env.REACT_APP_BACKEND_URL}/pipelines/parse`,
         payload
       )
+      if (data.error) {
+        setFormattedMessage(data.error)
+        setSeverity('error')
+      } else {
+        const { num_nodes, num_edges, is_dag } = data
 
-      const { num_nodes, num_edges, is_dag } = data
-
-      const formattedMsg = (
-        <Typography component="span" sx={styles.formattedMessageContainer}>
-          <Typography
-            variant="h6"
-            sx={styles.successMessageTitle}
-            component="strong"
-          >
-            Success!
+        const formattedMsg = (
+          <Typography component="span" sx={styles.formattedMessageContainer}>
+            <Typography
+              variant="h6"
+              sx={styles.successMessageTitle}
+              component="strong"
+            >
+              Success!
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={styles.pipelineAnalysisLabel}
+              component="label"
+            >
+              Pipeline Analysis
+            </Typography>
+            <ul sx={styles.pipelineAnalysisList}>
+              <li sx={styles.pipelineAnalysisListItem}>
+                <strong>Nodes:</strong> {num_nodes}
+              </li>
+              <li sx={styles.pipelineAnalysisListItem}>
+                <strong>Edges:</strong> {num_edges}
+              </li>
+              <li sx={styles.pipelineAnalysisListItem}>
+                <strong>Is DAG?:</strong> {is_dag ? 'Yes' : 'No'}
+              </li>
+            </ul>
           </Typography>
-          <Typography
-            variant="body1"
-            sx={styles.pipelineAnalysisLabel}
-            component="label"
-          >
-            Pipeline Analysis
-          </Typography>
-          <ul sx={styles.pipelineAnalysisList}>
-            <li sx={styles.pipelineAnalysisListItem}>
-              <strong>Nodes:</strong> {num_nodes}
-            </li>
-            <li sx={styles.pipelineAnalysisListItem}>
-              <strong>Edges:</strong> {num_edges}
-            </li>
-            <li sx={styles.pipelineAnalysisListItem}>
-              <strong>Is DAG?:</strong> {is_dag ? 'Yes' : 'No'}
-            </li>
-          </ul>
-        </Typography>
-      )
+        )
 
-      setFormattedMessage(formattedMsg)
-      setSeverity('success')
+        setFormattedMessage(formattedMsg)
+        setSeverity('success')
+      }
+
       setOpen(true)
     } catch (error) {
       console.error('Error submitting pipeline:', error)
