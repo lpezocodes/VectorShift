@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Snackbar, Alert, Typography } from '@mui/material'
-import { useStore } from './store'
+import { useStore } from '../store'
 import axios from 'axios'
-import { toolbarStyles } from './styles'
+import { toolbarStyles } from '../styles/styles'
 import { useTheme } from '@mui/material/styles'
 
 export const SubmitButton = () => {

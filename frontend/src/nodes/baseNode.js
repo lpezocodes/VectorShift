@@ -10,7 +10,7 @@ import {
   renderNumberInputField,
   renderDateField,
 } from '../utils/fieldUtils'
-import { toolbarStyles } from '../styles'
+import { toolbarStyles } from '../styles/styles'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from '../store'
 import IconButton from '@mui/material/IconButton'

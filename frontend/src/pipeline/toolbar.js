@@ -8,10 +8,10 @@ import {
   IconButton,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { DraggableNode } from './draggableNode'
+import { DraggableNode } from '../nodes/draggableNode'
 import { useTheme } from '@mui/material/styles'
-import vsLogo from './assets/vsLogo.avif'
-import { toolbarStyles } from './styles'
+import vsLogo from '../assets/vsLogo.avif'
+import { toolbarStyles } from '../styles/styles'
 
 export const PipelineToolbar = () => {
   const [open, setOpen] = useState(false)

@@ -1,7 +1,7 @@
 import { BaseNode } from './baseNode'
 import { Position } from 'reactflow'
 import { useState } from 'react'
-import { toolbarStyles } from '../styles'
+import { toolbarStyles } from '../styles/styles'
 import { useTheme } from '@mui/material/styles'
 import Slider from '@mui/material/Slider'
 

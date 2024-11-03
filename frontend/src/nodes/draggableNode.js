@@ -2,7 +2,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { toolbarStyles } from './styles'
+import { toolbarStyles } from '../styles/styles'
 
 export const DraggableNode = ({ type, label }) => {
   const theme = useTheme()

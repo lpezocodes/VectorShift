@@ -7,7 +7,7 @@ import {
   useUpdateNodeInternals,
 } from 'reactflow'
 import { BaseNode } from './baseNode'
-import { toolbarStyles } from '../styles'
+import { toolbarStyles } from '../styles/styles'
 import { useTheme } from '@mui/material/styles'
 
 const adjustTextAreaSize = textAreaRef => {
