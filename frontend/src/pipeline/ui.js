@@ -1,9 +1,6 @@
 // ui.js
-// Displays the drag-and-drop UI
-// --------------------------------------------------
-
-import 'reactflow/dist/style.css'
-import { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
+import { Snackbar, Alert, Button } from '@mui/material'
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow'
 import { useStore } from '../store'
 import { shallow } from 'zustand/shallow'
@@ -16,6 +13,7 @@ import { CheckboxNode } from '../nodes/checkboxNode'
 import { SliderNode } from '../nodes/sliderNode'
 import { NumberInputNode } from '../nodes/numberInputNode'
 import { DateNode } from '../nodes/dateNode'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const gridSize = 20
 const proOptions = { hideAttribution: true }
@@ -39,11 +37,14 @@ const selector = state => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  clearAllNodesAndEdges: state.clearAllNodesAndEdges,
 })
 
 export const PipelineUI = () => {
   const reactFlowWrapper = useRef(null)
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
+  const [openConfirm, setOpenConfirm] = useState(false)
+  const [openError, setOpenError] = useState(false)
   const {
     nodes,
     edges,
@@ -52,6 +53,7 @@ export const PipelineUI = () => {
     onNodesChange,
     onEdgesChange,
     onConnect,
+    clearAllNodesAndEdges,
   } = useStore(selector, shallow)
 
   const getInitNodeData = (nodeID, type) => {
@@ -99,6 +101,25 @@ export const PipelineUI = () => {
     event.dataTransfer.dropEffect = 'move'
   }, [])
 
+  const handleDeleteAll = () => {
+    // Check if there are any nodes
+    if (nodes.length === 0) {
+      setOpenError(true) // Show error snackbar if no nodes exist
+    } else {
+      setOpenConfirm(true) // Show confirmation snackbar if nodes exist
+    }
+  }
+
+  const handleConfirmDelete = () => {
+    clearAllNodesAndEdges()
+    setOpenConfirm(false)
+  }
+
+  const handleCloseSnackbar = () => {
+    setOpenConfirm(false)
+    setOpenError(false)
+  }
+
   return (
     <>
       <div ref={reactFlowWrapper} style={{ width: '100vw', height: '80vh' }}>
@@ -117,10 +138,78 @@ export const PipelineUI = () => {
           connectionLineType="smoothstep"
         >
           <Background color="#aaa" gap={gridSize} />
-          <Controls />
+          <Controls
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div style={{ margin: 3 }}>
+              <DeleteIcon
+                onClick={handleDeleteAll}
+                sx={{
+                  fontSize: 15,
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: 'red',
+                  },
+                }}
+              />
+            </div>
+          </Controls>
+
           <MiniMap />
         </ReactFlow>
       </div>
+      <Snackbar
+        open={openConfirm}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <Alert
+          severity="warning"
+          action={
+            <>
+              <Button
+                color="inherit"
+                size="small"
+                onClick={handleConfirmDelete}
+                sx={{
+                  '&:hover': {
+                    color: 'red',
+                  },
+                }}
+              >
+                Confirm
+              </Button>
+              <Button
+                color="inherit"
+                size="small"
+                onClick={handleCloseSnackbar}
+              >
+                Cancel
+              </Button>
+            </>
+          }
+        >
+          <strong>Are you sure you want to delete the entire pipeline?</strong>
+        </Alert>
+      </Snackbar>
+
+      {/* Error Snackbar */}
+      <Snackbar
+        open={openError}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <Alert severity="error" onClose={handleCloseSnackbar}>
+          <strong>No nodes exist to delete!</strong>
+        </Alert>
+      </Snackbar>
     </>
   )
 }
