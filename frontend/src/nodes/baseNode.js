@@ -12,33 +12,9 @@ import {
 } from '../utils/fieldUtils'
 import { toolbarStyles } from '../styles'
 import { useTheme } from '@mui/material/styles'
-
-// #region Documentation
-/**
- * BaseNode Component
- *
- * A reusable, abstract node component for React Flow diagrams.
- *
- * Props:
- * @param {string} id - Unique identifier for the node.
- * @param {object} data - Initial data for the node's state.
- * @param {string} title - Node title (e.g., "Input", "Output").
- * @param {Array} fields - Configurations for node input fields.
- *    Each field object contains:
- *      - label: Display label for the field.
- *      - type: Input type ("text", "select", "checkbox", "slider", "numberInput", "date").
- *      - key: Unique key for state storage.
- *      - options: Optional array of options for select fields.
- * @param {Array} handleConfigs - Node connection points (handles) configuration.
- *    Each handle object contains:
- *      - type: Handle type ("source" or "target").
- *      - position: Position on the node (e.g., Position.Right).
- *      - id: Unique handle ID.
- *      - style: Optional custom styling for the handle.
- * @param {JSX.Element} extraContent - Optional additional content rendered below fields.
- * @param {boolean} clearTrigger - Triggers a reset of node field values when toggled.
- */
-// #endregion
+import { useStore } from '../store'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 
 export const BaseNode = ({
   id,
@@ -53,6 +29,7 @@ export const BaseNode = ({
 }) => {
   const theme = useTheme()
   const styles = toolbarStyles(theme)
+  const { deleteNode } = useStore()
 
   const [localData, setLocalData] = useState(data)
 
@@ -128,8 +105,17 @@ export const BaseNode = ({
   return (
     <div style={{ ...styles.nodeContainer, ...customStyles.nodeContainer }}>
       {/* Topbar */}
-      <div style={{ ...styles.topbarStyles, ...customStyles.topbarStyles }}>
+      <div
+        style={{
+          ...styles.topbarStyles,
+          ...customStyles.topbarStyles,
+          position: 'relative',
+        }}
+      >
         <span>{title}</span>
+        <IconButton onClick={() => deleteNode(id)} sx={styles.deleteButton}>
+          <CloseIcon />
+        </IconButton>
       </div>
 
       {/* Fields */}

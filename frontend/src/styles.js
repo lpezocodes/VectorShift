@@ -87,7 +87,7 @@ export const toolbarStyles = theme => ({
   topbarStyles: {
     backgroundColor: theme.palette.secondary.main,
     padding: '10px',
-    borderRadius: '12px 12px 0 0',
+    borderRadius: '12px',
     color: '#FFF',
     textAlign: 'center',
     fontWeight: 'bold',
@@ -119,5 +119,17 @@ export const toolbarStyles = theme => ({
     width: '100%',
     boxSizing: 'border-box',
     backgroundColor: '#F7F7F7',
+  },
+
+  deleteButton: {
+    position: 'absolute',
+    top: '50%',
+    right: '8px',
+    transform: 'translateY(-50%)',
+    color: theme.palette.error.main,
+    padding: '4px',
+    '&:hover': {
+      color: theme.palette.error.dark,
+    },
   },
 })
