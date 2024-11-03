@@ -126,10 +126,21 @@ export const BaseNode = ({
           {fields.map(field => (
             <div
               key={field.key}
-              style={{ ...styles.fieldWrapper, ...customStyles.fieldWrapper }}
+              style={
+                field.type === 'checkbox'
+                  ? {
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '10px',
+                    }
+                  : { ...styles.fieldWrapper }
+              }
             >
               <label
-                style={{ ...styles.fieldLabel, ...customStyles.fieldLabel }}
+                style={{
+                  ...styles.fieldLabel,
+                  marginRight: field.type === 'checkbox' ? '10px' : '0',
+                }}
               >
                 {field.label}:
               </label>

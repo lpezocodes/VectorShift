@@ -71,7 +71,16 @@ export const CheckboxNode = ({ id, data }) => {
       extraContent={
         <button
           onClick={clearFields}
-          style={{ marginTop: '10px', padding: '5px', fontSize: 'small' }}
+          style={{
+            backgroundColor: '#f0f0f0',
+            color: '#333',
+            padding: '8px 16px',
+            borderRadius: '12px',
+            border: '1px solid #ccc',
+            fontSize: '14px',
+            cursor: 'pointer',
+            transition: 'background-color 0.3s ease',
+          }}
         >
           Clear Fields
         </button>
