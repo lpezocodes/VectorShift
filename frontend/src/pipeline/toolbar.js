@@ -41,9 +41,9 @@ export const PipelineToolbar = () => {
         {/* Common Nodes */}
         <Box sx={styles.draggableNodesContainer}>
           <DraggableNode type="customInput" label="Input" />
+          <DraggableNode type="text" label="Text" />
           <DraggableNode type="llm" label="LLM" />
           <DraggableNode type="customOutput" label="Output" />
-          <DraggableNode type="text" label="Text" />
           {/* Specialized Nodes*/}
           <ClickAwayListener onClickAway={handleClickAway}>
             <Box sx={styles.commonNodeStyles} onClick={handleToggle}>
