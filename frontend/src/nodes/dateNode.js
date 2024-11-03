@@ -9,7 +9,7 @@ export const DateNode = ({ id, data }) => (
       ...data,
       dateValue: data?.dateValue || '',
     }}
-    title="Date Node"
+    title="Date Picker"
     fields={[
       {
         label: 'Select Date',

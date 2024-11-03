@@ -16,7 +16,7 @@ export const SliderNode = ({ id, data }) => {
         ...data,
         sliderValue,
       }}
-      title="Slider Node"
+      title="Slider Value"
       fields={[
         {
           label: 'Adjust Value',

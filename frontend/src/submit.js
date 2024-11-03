@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from '@mui/material'
 import { useStore } from './store'
 import axios from 'axios'
 
@@ -44,9 +45,9 @@ export const SubmitButton = () => {
         justifyContent: 'center',
       }}
     >
-      <button type="button" onClick={handleSubmit}>
+      <Button variant="contained" color="primary" onClick={handleSubmit}>
         Submit
-      </button>
+      </Button>
     </div>
   )
 }

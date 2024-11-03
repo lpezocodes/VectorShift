@@ -1,32 +1,53 @@
 // draggableNode.js
+import React from 'react'
+import { Box } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import { toolbarStyles } from './styles'
 
 export const DraggableNode = ({ type, label }) => {
+  const theme = useTheme()
+  const styles = toolbarStyles(theme)
+
   const onDragStart = (event, nodeType) => {
     const appData = { nodeType }
     event.target.style.cursor = 'grabbing'
     event.dataTransfer.setData('application/reactflow', JSON.stringify(appData))
     event.dataTransfer.effectAllowed = 'move'
+
+    const dragClone = document.createElement('div')
+    dragClone.textContent = label
+    Object.assign(dragClone.style, {
+      ...styles.dragClone,
+      width: `${event.target.offsetWidth}px`,
+      height: `${event.target.offsetHeight}px`,
+      position: 'absolute',
+      left: `${event.clientX}px`,
+      top: `${event.clientY}px`,
+      pointerEvents: 'none',
+    })
+
+    document.body.appendChild(dragClone)
+
+    event.dataTransfer.setDragImage(
+      dragClone,
+      dragClone.offsetWidth / 2,
+      dragClone.offsetHeight / 2
+    )
+
+    requestAnimationFrame(() => {
+      document.body.removeChild(dragClone)
+    })
   }
 
   return (
-    <div
+    <Box
       className={type}
       onDragStart={event => onDragStart(event, type)}
       onDragEnd={event => (event.target.style.cursor = 'grab')}
-      style={{
-        cursor: 'grab',
-        minWidth: '80px',
-        height: '60px',
-        display: 'flex',
-        alignItems: 'center',
-        borderRadius: '8px',
-        backgroundColor: '#1C2536',
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }}
+      sx={styles.commonNodeStyles}
       draggable
     >
-      <span style={{ color: '#fff' }}>{label}</span>
-    </div>
+      {label}
+    </Box>
   )
 }

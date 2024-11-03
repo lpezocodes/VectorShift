@@ -6,7 +6,7 @@ export const DropdownSelectorNode = ({ id, data }) => (
   <BaseNode
     id={id}
     data={data}
-    title="Dropdown Selector"
+    title="Parameter Type"
     fields={[
       {
         label: 'Option',
