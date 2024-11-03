@@ -87,6 +87,7 @@ export const toolbarStyles = theme => ({
   topbarStyles: {
     backgroundColor: theme.palette.secondary.main,
     padding: '10px',
+    fontSize: '12px',
     borderRadius: '12px',
     color: '#FFF',
     textAlign: 'center',
@@ -128,8 +129,48 @@ export const toolbarStyles = theme => ({
     transform: 'translateY(-50%)',
     color: theme.palette.error.main,
     padding: '4px',
+    '& .MuiSvgIcon-root': {
+      fontSize: '16px',
+    },
     '&:hover': {
       color: theme.palette.error.dark,
     },
+  },
+  textAreaField: {
+    marginTop: '10px',
+    marginBottom: '0px',
+    padding: '10px',
+    fontSize: '14px',
+    borderRadius: '6px',
+    border: '1px solid #D1D1D1',
+    width: '100%',
+    boxSizing: 'border-box',
+    backgroundColor: '#F7F7F7',
+    resize: 'none',
+    overflow: 'hidden',
+    minHeight: '40px',
+  },
+  sliderFieldContainer: {
+    marginTop: '15px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+
+  sliderLabel: {
+    fontSize: '14px',
+    marginBottom: '8px',
+    color: theme.palette.text.primary,
+  },
+
+  slider: {
+    color: theme.palette.primary.main,
+    width: '100%',
+  },
+
+  currentValueText: {
+    marginTop: '10px',
+    fontSize: '14px',
+    color: theme.palette.text.secondary,
   },
 })

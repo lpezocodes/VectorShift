@@ -7,6 +7,8 @@ import {
   useUpdateNodeInternals,
 } from 'reactflow'
 import { BaseNode } from './baseNode'
+import { toolbarStyles } from '../styles'
+import { useTheme } from '@mui/material/styles'
 
 const adjustTextAreaSize = textAreaRef => {
   if (textAreaRef.current) {
@@ -21,6 +23,8 @@ const extractVariables = text =>
   )
 
 export const TextNode = ({ id, data }) => {
+  const theme = useTheme() 
+  const styles = toolbarStyles(theme)
   const textAreaRef = useRef(null)
   const { getEdges, setEdges } = useReactFlow()
   const updateNodeInternals = useUpdateNodeInternals()
@@ -102,20 +106,10 @@ export const TextNode = ({ id, data }) => {
               updateHandlesAndEdges(newText)
             }}
             maxLength={500}
-            style={{
-              resize: 'none',
-              overflow: 'hidden',
-              width: '100%',
-              height: 'auto',
-              minHeight: '40px',
-              borderRadius: '5px',
-              boxSizing: 'border-box',
-            }}
+            style={styles.textAreaField}
           />
           {/* Character count */}
-          <small
-            style={{ marginTop: '5px', fontSize: '12px', display: 'block' }}
-          >
+          <small style={{ fontSize: '12px', display: 'block' }}>
             <b>Character Count:</b> {(data.text || '').length}/500
           </small>
         </div>
