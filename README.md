@@ -26,11 +26,12 @@ Follow the steps below to set up and run the VectorShift project locally:
 
 **1. Clone the Repository**
 
-  Clone the repository to your local machine and navigate into the project folder:
+  Clone the repository to your local machine and navigate into the project folder and dev branch:
   
   ```bash
   git clone <repository-url>
-  cd VectorShiftTechnicalAssessment
+  cd VectorShift
+  git checkout dev
   ```
 
 **2. Backend Setup**
