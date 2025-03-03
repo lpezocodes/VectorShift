@@ -69,3 +69,11 @@ Start the frontend server
 npm start
 ```
 The frontend server will run at http://localhost:3000.
+
+# 🚨 Disclaimer  
+
+This project was originally built as a technical assessment for a company called **VectorShift**. After completing the assignment, the company **ghosted me** without any feedback or follow-up.  
+
+That said, I had a **ton of fun** designing and developing this tool! 🚀 I’m sharing it publicly because I believe in showcasing the work I put effort into, especially when it involves **Python, React.js, FastAPI, and workflow automation**.  
+
+This project is **not affiliated with VectorShift in any official capacity**—it’s an independent portfolio piece that demonstrates my ability to build **scalable, intuitive workflow solutions**.
