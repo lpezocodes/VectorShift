@@ -1,8 +1,9 @@
 // draggableNode.js
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { toolbarStyles } from '../styles/styles'
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 
 export const DraggableNode = ({ type, label }) => {
   const theme = useTheme()
@@ -24,6 +25,12 @@ export const DraggableNode = ({ type, label }) => {
       left: `${event.clientX}px`,
       top: `${event.clientY}px`,
       pointerEvents: 'none',
+      padding: '10px 16px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: 'Poppins, sans-serif',
+      fontWeight: '500',
     })
 
     document.body.appendChild(dragClone)
@@ -44,10 +51,30 @@ export const DraggableNode = ({ type, label }) => {
       className={type}
       onDragStart={event => onDragStart(event, type)}
       onDragEnd={event => (event.target.style.cursor = 'grab')}
-      sx={styles.commonNodeStyles}
+      sx={{
+        ...styles.commonNodeStyles,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+        cursor: 'grab',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          backgroundColor: theme.palette.secondary.main,
+          transform: 'translateY(-2px)',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+        },
+        '&:active': {
+          cursor: 'grabbing',
+          transform: 'translateY(-1px)',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        },
+      }}
       draggable
     >
-      {label}
+      <DragIndicatorIcon fontSize="small" sx={{ opacity: 0.7 }} />
+      <Typography variant="body2" sx={{ fontWeight: 500 }}>
+        {label}
+      </Typography>
     </Box>
   )
 }

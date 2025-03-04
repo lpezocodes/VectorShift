@@ -15,6 +15,7 @@ import { useTheme } from '@mui/material/styles'
 import { useStore } from '../store'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
+import { Tooltip, Fade } from '@mui/material'
 
 export const BaseNode = ({
   id,
@@ -113,9 +114,21 @@ export const BaseNode = ({
         }}
       >
         <span>{title}</span>
-        <IconButton onClick={() => deleteNode(id)} sx={styles.deleteButton}>
-          <CloseIcon />
-        </IconButton>
+        <Tooltip
+          title="Remove node"
+          arrow
+          placement="top"
+          TransitionComponent={Fade}
+          TransitionProps={{ timeout: 600 }}
+        >
+          <IconButton
+            onClick={() => deleteNode(id)}
+            sx={styles.deleteButton}
+            size="small"
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </div>
 
       {/* Fields */}
@@ -161,6 +174,8 @@ export const BaseNode = ({
             ...style,
             width: '10px',
             height: '10px',
+            backgroundColor: theme.palette.secondary.main,
+            border: `2px solid ${theme.palette.secondary.light}`,
           }}
         />
       ))}

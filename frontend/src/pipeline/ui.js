@@ -1,6 +1,6 @@
 // ui.js
 import React, { useState, useRef, useCallback } from 'react'
-import { Snackbar, Alert, Button } from '@mui/material'
+import { Snackbar, Alert, Button, Tooltip, Fade } from '@mui/material'
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow'
 import { useStore } from '../store'
 import { shallow } from 'zustand/shallow'
@@ -14,6 +14,7 @@ import { SliderNode } from '../nodes/sliderNode'
 import { NumberInputNode } from '../nodes/numberInputNode'
 import { DateNode } from '../nodes/dateNode'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { useTheme } from '@mui/material/styles'
 
 const gridSize = 20
 const proOptions = { hideAttribution: true }
@@ -41,6 +42,7 @@ const selector = state => ({
 })
 
 export const PipelineUI = () => {
+  const theme = useTheme()
   const reactFlowWrapper = useRef(null)
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const [openConfirm, setOpenConfirm] = useState(false)
@@ -122,7 +124,15 @@ export const PipelineUI = () => {
 
   return (
     <>
-      <div ref={reactFlowWrapper} style={{ width: '100vw', height: '80vh' }}>
+      <div
+        ref={reactFlowWrapper}
+        style={{
+          width: '100%',
+          height: 'calc(100vh - 150px)',
+          position: 'relative',
+          backgroundColor: 'transparent',
+        }}
+      >
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -136,31 +146,74 @@ export const PipelineUI = () => {
           proOptions={proOptions}
           snapGrid={[gridSize, gridSize]}
           connectionLineType="smoothstep"
+          defaultEdgeOptions={{
+            style: { stroke: theme.palette.secondary.main, strokeWidth: 2 },
+            animated: true,
+          }}
+          style={{ backgroundColor: 'transparent' }}
         >
-          <Background color="#aaa" gap={gridSize} />
+          <Background
+            color={theme.palette.primary.light}
+            gap={gridSize}
+            size={1.5}
+            variant="dots"
+            style={{ opacity: 0.4 }}
+          />
+
           <Controls
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'space-between',
+              gap: '8px',
+              padding: '8px',
+              borderRadius: '8px',
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
             }}
+            showInteractive={false}
           >
-            <div style={{ margin: 3 }}>
+            <Tooltip
+              title="Delete all nodes"
+              arrow
+              placement="right"
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+            >
               <DeleteIcon
                 onClick={handleDeleteAll}
                 sx={{
-                  fontSize: 15,
+                  fontSize: 18,
                   cursor: 'pointer',
+                  color: theme.palette.error.main,
+                  opacity: 0.7,
+                  transition: 'all 0.2s ease',
                   '&:hover': {
-                    color: 'red',
+                    opacity: 1,
+                    transform: 'scale(1.1)',
                   },
                 }}
               />
-            </div>
+            </Tooltip>
           </Controls>
 
-          <MiniMap />
+          <MiniMap
+            nodeStrokeColor={node => {
+              return theme.palette.primary.main
+            }}
+            nodeColor={node => {
+              return theme.palette.secondary.light
+            }}
+            nodeBorderRadius={8}
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              border: `1px solid ${theme.palette.primary.light}`,
+              borderRadius: '8px',
+            }}
+            zoomable
+            pannable
+          />
         </ReactFlow>
       </div>
       <Snackbar
@@ -179,7 +232,7 @@ export const PipelineUI = () => {
                 onClick={handleConfirmDelete}
                 sx={{
                   '&:hover': {
-                    color: 'red',
+                    color: theme.palette.error.main,
                   },
                 }}
               >
