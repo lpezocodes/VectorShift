@@ -20,7 +20,8 @@ export const SubmitButton = () => {
     edges: state.edges,
   }))
 
-  const [open, setOpen] = useState(false)
+  const [openSuccess, setOpenSuccess] = useState(false)
+  const [openError, setOpenError] = useState(false)
   const [formattedMessage, setFormattedMessage] = useState('')
   const [severity, setSeverity] = useState('success')
   const [loading, setLoading] = useState(false)
@@ -47,19 +48,19 @@ export const SubmitButton = () => {
         if (data.error) {
           setFormattedMessage(data.error)
           setSeverity('error')
+          setOpenError(true)
         } else {
           const { num_nodes, num_edges, is_dag } = data
           setFormattedMessage({ num_nodes, num_edges, is_dag })
           setSeverity('success')
+          setOpenSuccess(true)
         }
-
-        setOpen(true)
       }, 600) // Add a small delay for better UX
     } catch (error) {
       console.error('Error submitting pipeline:', error)
       setFormattedMessage('Failed to analyze the pipeline. Please try again.')
       setSeverity('error')
-      setOpen(true)
+      setOpenError(true)
       setLoading(false)
     }
   }
@@ -68,7 +69,8 @@ export const SubmitButton = () => {
     if (reason === 'clickaway') {
       return
     }
-    setOpen(false)
+    setOpenSuccess(false)
+    setOpenError(false)
   }
 
   const isConnected = nodes.length >= 2 && edges.length >= 1
@@ -114,7 +116,7 @@ export const SubmitButton = () => {
 
       {/* Success Notification */}
       <Snackbar
-        open={open && severity === 'success'}
+        open={openSuccess}
         autoHideDuration={6000}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -225,7 +227,7 @@ export const SubmitButton = () => {
 
       {/* Error Notification */}
       <Snackbar
-        open={open && severity === 'error'}
+        open={openError}
         autoHideDuration={6000}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
