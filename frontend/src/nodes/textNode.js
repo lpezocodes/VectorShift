@@ -72,10 +72,13 @@ export const TextNode = ({ id, data }) => {
               key={variable}
               style={{
                 position: 'absolute',
-                left: '-60px',
+                left: -25,
                 top: `${index * 20 + 10}px`,
+                transform: 'translateX(-100%)',
                 display: 'flex',
                 alignItems: 'center',
+                whiteSpace: 'nowrap',
+                overflow: 'visible',
               }}
             >
               <Handle

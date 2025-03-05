@@ -23,11 +23,20 @@ export const SubmitButton = () => {
   const [openSuccess, setOpenSuccess] = useState(false)
   const [openError, setOpenError] = useState(false)
   const [formattedMessage, setFormattedMessage] = useState('')
+  // eslint-disable-next-line no-unused-vars
   const [severity, setSeverity] = useState('success')
   const [loading, setLoading] = useState(false)
 
+  const [spinningUp, setSpinningUp] = useState(false)
+
   const handleSubmit = async () => {
     setLoading(true)
+    setSpinningUp(false)
+
+    const spinTimeout = setTimeout(() => {
+      setSpinningUp(true)
+    }, 10000)
+
     const payload = {
       nodes: nodes.map(node => node.id),
       edges: edges.map(edge => ({
@@ -43,7 +52,9 @@ export const SubmitButton = () => {
       )
 
       setTimeout(() => {
+        clearTimeout(spinTimeout)
         setLoading(false)
+        setSpinningUp(false)
 
         if (data.error) {
           setFormattedMessage(data.error)
@@ -55,26 +66,25 @@ export const SubmitButton = () => {
           setSeverity('success')
           setOpenSuccess(true)
         }
-      }, 600) // Add a small delay for better UX
+      }, 600)
     } catch (error) {
       console.error('Error submitting pipeline:', error)
+      clearTimeout(spinTimeout)
       setFormattedMessage('Failed to analyze the pipeline. Please try again.')
       setSeverity('error')
       setOpenError(true)
       setLoading(false)
+      setSpinningUp(false)
     }
   }
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
-    }
+    if (reason === 'clickaway') return
     setOpenSuccess(false)
     setOpenError(false)
   }
 
   const isConnected = nodes.length >= 2 && edges.length >= 1
-
   if (!isConnected) return null
 
   return (
@@ -114,15 +124,36 @@ export const SubmitButton = () => {
         {loading ? 'Processing...' : 'Shift it!'}
       </Button>
 
+      {/* Show a message if the request is taking a while */}
+      <Snackbar
+        open={spinningUp && loading}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        onClose={handleClose}
+        sx={{ marginTop: '70px' }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="info"
+          variant="filled"
+          sx={{
+            width: '100%',
+            borderRadius: '10px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+          }}
+        >
+          The server may be waking up from inactivity. This can take a bit.
+          Please hang tight!
+        </Alert>
+      </Snackbar>
+
       {/* Success Notification */}
       <Snackbar
         open={openSuccess}
         autoHideDuration={6000}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        TransitionComponent={Zoom}
         sx={{
-          marginTop: '70px', // Position below the toolbar
+          marginTop: '70px',
           '& .MuiPaper-root': {
             borderRadius: '10px',
           },
