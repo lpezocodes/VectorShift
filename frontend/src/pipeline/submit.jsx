@@ -47,7 +47,7 @@ export const SubmitButton = () => {
 
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/pipelines/parse`,
+        `${import.meta.env.VITE_BACKEND_URL}/pipelines/parse`,
         payload
       )
 
